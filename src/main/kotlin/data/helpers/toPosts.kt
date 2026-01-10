@@ -1,0 +1,36 @@
+package com.example.data.helpers
+
+import com.example.data.models.ImageUrl
+import com.example.data.models.PostDTO
+import org.bson.Document
+
+ fun List<Document>.toPosts() : List<PostDTO>{
+    return this.map { doc ->
+        PostDTO(
+            postId = doc.getString("postId"),
+            userId = doc.getString("userId"),
+            caption = doc.getString("caption"),
+            contentType = doc.getString("contentType"),
+            imageUrls = doc.getList("imageUrls", Document::class.java)
+                ?.map { imgDoc ->
+                    ImageUrl(
+                        thumbnail = imgDoc.getString("thumbnail"),
+                        main = imgDoc.getString("main"),
+                        chat = imgDoc.getString("chat")
+                    )
+                }
+                ?: emptyList(),
+            videoUrl = doc.getString("videoUrl"),
+            likes = doc.getInteger("likes", 0),
+            comments = doc.getInteger("comments", 0),
+            tags = doc.getList("tags", String::class.java) ?: emptyList(),
+            status = doc.getString("status"),
+            createdAt = doc.getLong("createdAt"),
+            expiredAt = doc.getLong("expiredAt"),
+            score = doc.getDouble("score"),
+            isLiked = doc.getBoolean("isLiked", false) ,
+            userName = doc.getString("userName") ,
+            userProfile = doc.getString("userProfile")
+        )
+    }
+}
