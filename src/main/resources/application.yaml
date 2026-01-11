@@ -4,5 +4,6 @@ ktor:
             - com.example.ApplicationKt.module
     deployment:
         port: ${PORT}
+        host: "0.0.0.0"
     watch:
         - classes
