@@ -1,5 +1,6 @@
 package com.example.presentation.plugins.koin
 
+import com.example.data.helpers.getEnv
 import com.example.data.impls.addUser.addUserImpl
 import com.example.data.impls.uploads.sightEngineImpl
 import com.example.data.impls.uploads.uploadPostsImpl
@@ -33,8 +34,7 @@ import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 
 fun Application.koinSetUp(){
-   val dotenv = dotenv()
-    val mongoUri = dotenv.get("MONGO_URI")
+    val mongoUri = getEnv("MONGO_URI")
     val pluginModule = module {
        single {
            FirebaseAuth.getInstance()

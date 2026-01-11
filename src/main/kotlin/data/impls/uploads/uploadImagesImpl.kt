@@ -4,6 +4,7 @@ package com.example.data.impls.uploads
 import com.cloudinary.Cloudinary
 import com.cloudinary.Transformation
 import com.cloudinary.utils.ObjectUtils
+import com.example.data.helpers.getEnv
 import com.example.data.models.ImageUrl
 import com.example.data.utils.generic.retryOperation
 import com.example.data.utils.generic.ServerExceptions
@@ -17,10 +18,9 @@ import kotlinx.coroutines.coroutineScope
 import java.util.UUID
 
 class uploadPostsImpl(private val upload : uploadImage) : uploadPosts {
-    val dotenv = dotenv()
-    val cloud = dotenv["CLOUD_NAME"]
-    val apiKey = dotenv["CLOUD_API"]
-    val apiSecret = dotenv["CLOUD_SECRET"]
+    val cloud = getEnv("CLOUD_NAME")
+    val apiKey = getEnv("CLOUD_API")
+    val apiSecret = getEnv("CLOUD_SECRET")
     private val cloudinary = Cloudinary(
         mapOf(
             "cloud_name" to cloud,

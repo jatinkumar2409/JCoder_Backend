@@ -1,5 +1,6 @@
 package com.example.presentation.routes.moderation
 
+import com.example.data.helpers.getEnv
 import com.example.data.impls.uploads.flatten
 import com.example.data.utils.uploadUtils.moderationChecker
 import com.example.domain.repositories.postUpload.uploadPostToMongo
@@ -21,8 +22,7 @@ fun Route.sightEngineWebhook(){
         val token = call.queryParameters["token"]
         val userId = call.queryParameters["userId"] ?:""
         val postId = call.queryParameters["postId"] ?: ""
-        val dotenv = dotenv()
-        val envToken = dotenv["TOKEN"]
+        val envToken = getEnv("TOKEN")
         if(token != envToken){
             return@post
             call.respond(status = HttpStatusCode.ExpectationFailed , message = "Invalid token")

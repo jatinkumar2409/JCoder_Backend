@@ -1,5 +1,6 @@
 package com.example.data.impls.uploads
 
+import com.example.data.helpers.getEnv
 import com.example.data.utils.uploadUtils.moderationChecker
 import com.example.data.utils.generic.retryOperation
 import com.example.data.utils.generic.ServerExceptions
@@ -27,9 +28,8 @@ import java.io.File
 import java.util.UUID
 
 class sightEngineImpl(private val checker : moderationChecker , private val client : HttpClient) : sightEngine {
-    val dotenv = dotenv()
-    val apiUser = dotenv.get("SIGHT_ENGINE_USER")
-    val apiSecret = dotenv.get("SIGHT_ENGINE_SECRET")
+    val apiUser = getEnv("SIGHT_ENGINE_USER")
+    val apiSecret = getEnv("SIGHT_ENGINE_SECRET")
     override suspend fun verifyPost(
         files: List<File>,
         caption: String

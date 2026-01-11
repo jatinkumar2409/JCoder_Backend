@@ -1,6 +1,7 @@
 package com.example.domain.usecases.userDetails
 
 import com.cloudinary.Cloudinary
+import com.example.data.helpers.getEnv
 import com.example.data.impls.uploads.sightEngineImpl
 import com.example.data.utils.uploadUtils.uploadImage
 import com.example.data.utils.user.updateUser
@@ -13,10 +14,9 @@ import java.io.File
 class updateImageUseCase(private val verifyPost: sightEngine , private val uploadProfile: uploadImage  ,
     private val update : updateUser
     ) {
-    val dotenv = dotenv()
-    val cloud = dotenv["CLOUD_NAME"]
-    val apiKey = dotenv["CLOUD_API"]
-    val apiSecret = dotenv["CLOUD_SECRET"]
+    val cloud = getEnv("CLOUD_NAME")
+    val apiKey = getEnv("CLOUD_API")
+    val apiSecret = getEnv("CLOUD_SECRET")
     private val cloudinary = Cloudinary(
         mapOf(
             "cloud_name" to cloud,
