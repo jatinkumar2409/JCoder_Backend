@@ -7,6 +7,7 @@ import com.example.presentation.routes.likeAndComments.changeLikeAndCommentStatu
 import com.example.presentation.routes.moderation.sightEngineWebhook
 import com.example.presentation.routes.save.saveOrUnsavePost
 import com.example.presentation.routes.search.generateSearchResults
+import com.example.presentation.routes.test.test
 import com.example.presentation.routes.upload.uploadPost
 import com.example.presentation.routes.user.getUserPosts
 import com.example.presentation.routes.user.userDetails
@@ -24,5 +25,6 @@ fun Application.configureRoutes(){
         changeLikeAndCommentStatus()
         generateSearchResults()
         saveOrUnsavePost()
+        test()
     }
 }
