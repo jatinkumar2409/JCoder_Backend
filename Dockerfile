@@ -6,6 +6,6 @@ RUN ./gradlew clean shadowJar
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/build/libs/app-0.0.1-all.jar app.jar
+COPY --from=build /app/build/libs/*-all.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
