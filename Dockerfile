@@ -1,3 +1,4 @@
+# Force rebuild - multi-stage Dockerfile
 FROM eclipse-temurin:17-jdk AS build
 WORKDIR /app
 COPY . .
