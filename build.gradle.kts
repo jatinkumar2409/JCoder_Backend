@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
@@ -12,7 +14,11 @@ version = "0.0.1"
 application {
     mainClass = "io.ktor.server.netty.EngineMain"
 }
-
+tasks.named<ShadowJar>("shadowJar") {
+    archiveBaseName.set("app")
+    archiveVersion.set("0.0.1")
+    archiveClassifier.set("all")
+}
 dependencies {
     implementation(libs.ktor.server.rate.limiting)
     implementation(libs.ktor.server.core)
