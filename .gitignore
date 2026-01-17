@@ -37,3 +37,6 @@ out/
 .env
 *.jar
 
+/src/main/resources/admin_sdk.json
+
+
