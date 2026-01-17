@@ -10,7 +10,7 @@ class savePostUseCase(private val saveOrUnsavePostVal: saveOrUnsavePost) {
             throw e
         }
     }
-    suspend fun unSavePost(userId : String ,postId : String ) :  Boolean{
+    suspend fun unSavePost(userId : String ,postId : String) :  Boolean{
         try {
             return saveOrUnsavePostVal.unSavePost(postId = postId , userId = userId)
         }catch ( e : Exception){

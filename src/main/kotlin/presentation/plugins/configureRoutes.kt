@@ -11,6 +11,7 @@ import com.example.presentation.routes.test.test
 import com.example.presentation.routes.upload.uploadPost
 import com.example.presentation.routes.user.getUserPosts
 import com.example.presentation.routes.user.userDetails
+import com.example.presentation.routes.userUploads.getUserUploads
 import io.ktor.server.application.Application
 import io.ktor.server.routing.routing
 
@@ -25,6 +26,7 @@ fun Application.configureRoutes(){
         changeLikeAndCommentStatus()
         generateSearchResults()
         saveOrUnsavePost()
+        getUserUploads()
         test()
     }
 }

@@ -28,7 +28,7 @@ fun Route.generateFeed(){
            )
        }
        posts.map {
-           println(it.postId)
+           println(it.isSaved)
        }
 
            call.respond(

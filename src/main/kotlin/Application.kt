@@ -1,6 +1,5 @@
 package com.example
 
-import com.example.domain.usecases.userDetails.getUserUseCase
 import com.example.presentation.plugins.configureIndices
 import com.example.presentation.plugins.configureRoutes
 import com.example.presentation.plugins.contentNegotiation

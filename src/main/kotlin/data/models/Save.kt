@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Save(
-    val postId : String , val userId : String
+    val postId : String , val userId : String , val savedAt : Long
 )

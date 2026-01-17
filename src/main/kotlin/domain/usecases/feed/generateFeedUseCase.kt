@@ -28,10 +28,10 @@ class generateFeedUseCase(private val getFeed : buildFeedPipeline , private val 
             }
         val pipeline = getFeed.buildFeedPipeline(userId , cursor)
         val posts = posts.aggregate(pipeline).toList().toPosts()
-            feedCache.put(cachedKey = createCacheKey(userId) , posts = posts)
+           if(cursor == null) feedCache.put(cachedKey = createCacheKey(userId) , posts = posts)
         return posts
     }catch (e : Exception){
-        println(e.message.toString())
+        println("\n\n\n\n\n The exception is at" +e.message.toString())
         throw e
     }
     }

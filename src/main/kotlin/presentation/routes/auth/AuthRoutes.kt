@@ -21,6 +21,7 @@ fun Route.authRoute(){
         call.respondText("Hello world")
     }
     post("/addUser") {
+        print("I am running")
         try {
             val userToken = call.receive<Token>()
             val verifiedUser = verifyTokenUseCase.verifyToken(userToken.token)
@@ -31,9 +32,11 @@ fun Route.authRoute(){
                 else call.respond(HttpStatusCode.Accepted, "User not added")
 
         }catch (e : ServerExceptions.UserNotVerifiedException){
+            println(e.message.toString())
             call.respond(HttpStatusCode.ExpectationFailed , e.message.toString())
         }
         catch (e : Exception){
+            println(e.message.toString())
             call.respond(HttpStatusCode.ExpectationFailed , e.message.toString())
 
         }

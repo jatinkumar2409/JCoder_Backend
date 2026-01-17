@@ -70,7 +70,7 @@ class getSearchImpl(private val db : MongoDatabase) : getSearch {
             .append("pipeline" , listOf(
                 Document("\$match" , Document("\$expr" , Document("\$eq" , listOf("\$uid" , userId)))) ,
                 Document("\$limit" ,1)
-            )).append("as" , "saveInfo")
+            )).append("as" , "userInfo")
         )
         pipeline += Document("\$addFields" , Document()
             .append("userName" , Document("\$arrayElemAt" , listOf("\$userInfo.name" , 0)))

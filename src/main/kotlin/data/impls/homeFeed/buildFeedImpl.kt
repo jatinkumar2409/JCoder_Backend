@@ -49,15 +49,15 @@ class buildFeedImpl : buildFeedPipeline {
                         Document("\$eq", listOf("\$userId", userId))
                     )))) ,
                 Document("\$limit" , 1)
-
             )).append("as" , "saveInfo")
             )
         pipeline += Document("\$lookup" , Document()
             .append("from" , "users")
+            .append("let" , Document("postUserId" , "\$userId"))
             .append("pipeline" , listOf(
-                Document("\$match" , Document("\$expr" , Document("\$eq" , listOf("\$uid" , userId)))) ,
+                Document("\$match" , Document("\$expr" , Document("\$eq" , listOf("\$uid" , "\$\$postUserId")))) ,
                 Document("\$limit" ,1)
-            )).append("as" , "saveInfo")
+            )).append("as" , "userInfo")
             )
 
         pipeline += Document("\$addFields" , Document()
@@ -77,8 +77,7 @@ class buildFeedImpl : buildFeedPipeline {
                 Document("\$gt", listOf(
                     Document("\$size", "\$likeInfo"),
                     0
-                ))
-            )
+                )))
         )
         pipeline += Document("\$addFields", Document("ageHours",
             Document("\$divide", listOf(

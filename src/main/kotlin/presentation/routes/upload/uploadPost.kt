@@ -83,23 +83,30 @@ fun Route.uploadPost(){
                 call.respond(status = HttpStatusCode.BadRequest , message = "Invalid content type")
             }
         } catch (e : ServerExceptions.UserNotVerifiedException){
+            println("Exception at uploading the post is ${e.message}")
             call.respond(HttpStatusCode.ExpectationFailed , e.message.toString())
         }
         catch (e : ServerExceptions.ImageRejectedException){
+            println("Exception at uploading the post is ${e.message}")
             call.respond(HttpStatusCode.ExpectationFailed , e.message.toString())
         }
         catch (e: ServerExceptions.PostUploadException){
+            println("Exception at uploading the post is ${e.message}")
             call.respond(HttpStatusCode.ExpectationFailed , e.message.toString())
 
         }
         catch (e : ServerExceptions.PostUploadAtDbException){
+            println("Exception at uploading the post is ${e.message}")
             call.respond(HttpStatusCode.ExpectationFailed , e.message.toString())
 
         }
         catch (e : ServerExceptions.PostRejectedException){
+            println("Exception at uploading the post is ${e.message}")
             call.respond(HttpStatusCode.ExpectationFailed , e.message.toString())
         }
         catch (e : Exception){
+            println("Exception at uploading the post is ${e.message}")
+
             call.respond(HttpStatusCode.ExpectationFailed , "Something went wrong")
         }
     }

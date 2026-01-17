@@ -3,16 +3,19 @@ package com.example.presentation.routes.user
 
 import com.example.domain.usecases.userDetails.getUserUseCase
 import com.example.domain.usecases.userDetails.updateImageUseCase
+import com.example.domain.usecases.userDetails.updateUserUseCase
 import com.example.domain.usecases.verifyToken.verifyTokenUseCase
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.PartData
 import io.ktor.http.content.forEachPart
+import io.ktor.server.request.receive
 import io.ktor.server.request.receiveMultipart
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.utils.io.jvm.javaio.toInputStream
+import kotlinx.serialization.Serializable
 import org.koin.ktor.ext.inject
 import java.io.File
 import java.util.UUID
@@ -85,4 +88,26 @@ fun Route.userDetails() {
             call.respond(status = HttpStatusCode.ExpectationFailed , e.message.toString())
     }
     }
+    post("/updateUser/data"){
+        println("Update user is running")
+     val userObject = call.receive<UpdateUserObject>()
+        if (userObject.token.trim().isEmpty()){
+            call.respond(status = HttpStatusCode.BadRequest , message = "Invalid token")
+            return@post
+        }
+        println("name is ${userObject.name} and bio is ${userObject.bio}")
+        val verifyUser by inject<verifyTokenUseCase>()
+        val updateUser by inject<updateUserUseCase>()
+        try{
+            val user = verifyUser.verifyToken(userObject.token)
+            val response = updateUser.updateUser(user.uid , userObject.name , userObject.bio)
+            call.respond(status = HttpStatusCode.OK , message = "User updated")
+        }catch (e : Exception){
+            call.respond(status = HttpStatusCode.ExpectationFailed , message = "Something went wrong")
+        }
+
+    }
 }
+
+@Serializable
+private data class UpdateUserObject(val name : String? , val bio : String? , val token : String)

@@ -11,7 +11,7 @@ data class PostDTO(
     val imageUrls : List<ImageUrl> = emptyList(),
     val videoUrl : String = "" ,
     val likes : Int = 0,
-    val comments : Int = 0,
+    val comments : Int? = null,
     val tags : List<String> = emptyList(),
     val status : String = "public",
     val createdAt : Long = System.currentTimeMillis(),
