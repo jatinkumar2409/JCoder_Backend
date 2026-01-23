@@ -24,8 +24,9 @@ fun Route.userDetails() {
     get("/getUser") {
         print("get user is running")
         val uid = call.queryParameters["user_id"] ?: ""
+        val currentUserId = call.queryParameters["currentUser"] ?: ""
         val getUser by inject<getUserUseCase>()
-        val response = getUser.getUser(uid)
+        val response = getUser.getUser(uid , currentUserId)
         if (response == null) {
             call.respond(status = HttpStatusCode.ExpectationFailed, "User not found")
             return@get

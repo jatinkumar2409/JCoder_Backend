@@ -6,6 +6,7 @@ import com.example.data.impls.uploads.sightEngineImpl
 import com.example.data.impls.uploads.uploadPostsImpl
 import com.example.data.impls.uploads.uploadPostToMongoImpl
 import com.example.data.impls.addUser.verifyUserImpl
+import com.example.data.impls.singlePost.loadSinglePostImpl
 import com.example.data.mongo.MongoProvider
 import com.example.data.utils.uploadUtils.moderationChecker
 import com.example.domain.repositories.addUser.addUser
@@ -13,6 +14,8 @@ import com.example.domain.repositories.postUpload.sightEngine
 import com.example.domain.repositories.postUpload.uploadPosts
 import com.example.domain.repositories.postUpload.uploadPostToMongo
 import com.example.domain.repositories.addUser.verifyUser
+import com.example.domain.repositories.singlePost.loadSinglePost
+import com.example.domain.usecases.singlePost.loadPostUseCase
 import com.example.domain.usecases.uploadPost.uploadImageUseCase
 import com.example.domain.usecases.uploadPost.uploadTextUseCase
 import com.example.domain.usecases.uploadPost.uploadVideoUseCase
@@ -67,13 +70,13 @@ fun Application.koinSetUp(){
             sightEngineImpl(get() , get())
         }
      single<uploadImageUseCase> {
-         uploadImageUseCase(get() , get() , get())
+         uploadImageUseCase(get() , get() , get() , get() , get() , get() , get())
      }
         single<uploadVideoUseCase> {
             uploadVideoUseCase(get() , get() , get())
         }
         single<uploadTextUseCase> {
-            uploadTextUseCase(get() , get())
+            uploadTextUseCase(get() , get() , get() , get() , get() ,get())
         }
         single {
             HttpClient(CIO){
@@ -91,7 +94,14 @@ fun Application.koinSetUp(){
 
             }
         }
+        single<loadSinglePost> {
+            loadSinglePostImpl(get())
+        }
+        single {
+            loadPostUseCase(get())
+        }
     }
+
     install(Koin){
         modules(
       pluginModule , genericModule

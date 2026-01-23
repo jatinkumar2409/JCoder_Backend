@@ -2,9 +2,11 @@ package com.example.data.impls.userDetails
 
 import com.example.data.helpers.toPostDto
 import com.example.data.impls.save.LikesPostIds
+import com.example.data.models.Follow
 import com.example.data.models.Post
 import com.example.data.models.PostDTO
 import com.example.data.models.User
+import com.example.data.models.UserDTO
 import com.example.domain.repositories.userDetails.userDetails
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Filters.eq
@@ -23,11 +25,22 @@ class userDetailsImpl(private val db : MongoDatabase) : userDetails{
    private val users = db.getCollection<User>("users")
     private val posts = db.getCollection<Post>("posts")
     val likes = db.getCollection<LikesPostIds>("likes")
+    val follows = db.getCollection<Follow>("follows")
     val saved = db.getCollection<SavedPostsIds>("saved")
-    override suspend fun getUser(uid: String): User? {
+    override suspend fun getUser(uid: String , currentUserId : String): UserDTO? {
         try {
             val user = users.find(eq("uid" , uid)).firstOrNull()
-            return user
+            val isFollowed = follows.find(Filters.and(
+                eq("followerId" , currentUserId) ,
+                eq("followingId" , uid)
+            )).firstOrNull()
+            return user?.let {
+                 UserDTO(
+                    uid = it.uid , name = it.name , email = it.email , profilePicture = it.profilePicture , bio = it.bio , postCount = it.postCount , following = it.following , follower = it.follower ,
+                    isFollowed = isFollowed != null
+                )
+
+            }
         }catch (e : Exception){
             print("Excpetion at getUser is : ${e.message}")
             throw e

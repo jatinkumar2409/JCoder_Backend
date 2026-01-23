@@ -11,7 +11,7 @@ import com.example.data.utils.generic.retryOperation
 import java.util.UUID
 
 class uploadImage {
-    suspend fun uplaodImage(cloudinary: Cloudinary , imageFile : ByteArray , userId : String ,index : Int) : ImageUrl = withContext(Dispatchers.IO) {
+    suspend fun uplaodImage(cloudinary: Cloudinary , imageFile : ByteArray , userId : String ,index : Int) : String = withContext(Dispatchers.IO) {
 
       try {
           print("upload image is running")
@@ -32,30 +32,10 @@ class uploadImage {
                   .quality("40")
           )
               .generate(uplaodPublicId)
-          val main = cloudinary.url().transformation(
-              Transformation<Transformation<*>>()
-                  .width(1440)
-                  .crop("scale")
-                  .fetchFormat("webp")
-                  .quality("70")
-          )
-              .generate(uplaodPublicId)
-          val chat = cloudinary.url().transformation(
-              Transformation<Transformation<*>>()
-                  .width(300)
-                  .crop("scale")
-                  .fetchFormat("webp")
-                  .quality("30")
-          )
-              .generate(uplaodPublicId)
+
 
           print("thumbnail is $thumbnail")
-          ImageUrl(
-              thumbnail = thumbnail,
-              main = main,
-              chat = chat
-          )
-
+        thumbnail
       }catch (e : Exception){
           print("Upload failed ${e.message}")
           e.printStackTrace()

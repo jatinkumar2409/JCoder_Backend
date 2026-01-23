@@ -31,7 +31,7 @@ class uploadPostsImpl(private val upload : uploadImage) : uploadPosts {
 
         )
     )
-    override suspend fun uploadImages(imagesBytes : List<ByteArray> , userId : String): List<ImageUrl>  {
+    override suspend fun uploadImages(imagesBytes : List<ByteArray> , userId : String): List<String>  {
         return retryOperation(exception = ServerExceptions.PostUploadException()) {
           coroutineScope {
               print("cloud is running")

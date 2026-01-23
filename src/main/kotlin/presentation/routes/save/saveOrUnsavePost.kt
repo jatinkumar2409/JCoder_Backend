@@ -14,11 +14,13 @@ import org.koin.ktor.ext.inject
 
 fun Route.saveOrUnsavePost(){
     get("/saveOrUnsavePost"){
+        println("save post is running")
       val userId = call.queryParameters["userId"] ?: ""
       val postId = call.queryParameters["postId"] ?: ""
       val status = call.queryParameters["status"].toBoolean()
 
       if (userId.trim().isEmpty() || postId.trim().isEmpty()){
+          println("userid is $userId , post id is $postId , status is $status")
           call.respond(status = HttpStatusCode.BadRequest , message = "Invalid details")
           return@get
       }
@@ -41,11 +43,13 @@ fun Route.saveOrUnsavePost(){
     }
     post("/loadSavedPosts"){
       val savePostDto = call.receive<SavePostDTO>()
+        println("load saved posts load with page with ${savePostDto.page}")
         try {
             val verifyToken by inject<verifyTokenUseCase>()
             val loadPosts by inject<loadSavedPosts>()
             val user = verifyToken.verifyToken(savePostDto.token)
             val posts = loadPosts.loadSavedPosts(userId = user.uid , page = savePostDto.page, limit = 16)
+            println("posts is ${posts.joinToString(" , ")}")
             call.respond(posts)
         }catch (e : Exception){
             println("\n\n\n\n Exception at load save posts is" + e.message.toString())

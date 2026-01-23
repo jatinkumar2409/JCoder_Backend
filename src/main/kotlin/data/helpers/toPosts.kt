@@ -13,15 +13,7 @@ import org.bson.Document
                  userId = doc.getString("userId"),
                  caption = doc.getString("caption"),
                  contentType = doc.getString("contentType"),
-                 imageUrls = doc.getList("imageUrls", Document::class.java)
-                     ?.map { imgDoc ->
-                         ImageUrl(
-                             thumbnail = imgDoc.getString("thumbnail"),
-                             main = imgDoc.getString("main"),
-                             chat = imgDoc.getString("chat")
-                         )
-                     }
-                     ?: emptyList(),
+                 imageUrls = doc.getList("imageUrls" , String::class.java) ?: emptyList(),
                  videoUrl = doc.getString("videoUrl"),
                  likes = doc.getInteger("likes", 0),
                  comments = doc.getInteger("comments", 0),

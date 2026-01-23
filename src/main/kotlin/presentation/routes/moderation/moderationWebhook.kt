@@ -2,6 +2,7 @@ package com.example.presentation.routes.moderation
 
 import com.example.data.helpers.getEnv
 import com.example.data.impls.uploads.flatten
+import com.example.data.utils.generic.webhookUtils
 import com.example.data.utils.uploadUtils.moderationChecker
 import com.example.domain.repositories.postUpload.uploadPostToMongo
 import com.example.domain.repositories.postUpload.uploadPosts
@@ -39,14 +40,18 @@ fun Route.sightEngineWebhook(){
             val uploadPosts by inject<uploadPosts>()
             val checker by inject<moderationChecker>()
             val mongo by inject<uploadPostToMongo>()
+            val fcmUtils by inject<webhookUtils>()
             val scoreMaps = flatten(json, "" , checker)
             val result = checker.shouldBlock(scoreMaps)
             if (result) {
                 val videoUrl = uploadPosts.uploadVideo(videoFile.readBytes(), userId)
                 mongo.updatePost(postId, videoUrl , "public")
+                fcmUtils.notifyAuthor(status = true , postId = postId , userId = userId)
+                fcmUtils.notifyFollowers(postId = postId , userId = userId)
             } else {
                 mongo.updatePost(postId, "" , "rejected")
-                mongo.deletePost(postId)
+                mongo.deletePost(postId , userId)
+                fcmUtils.notifyAuthor(status = false , postId = null , userId = userId)
             }
             call.respond(HttpStatusCode.OK, "Webhook run perfectly")
         }
@@ -55,3 +60,4 @@ fun Route.sightEngineWebhook(){
         }
     }
 }
+
