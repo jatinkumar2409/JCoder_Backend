@@ -88,6 +88,7 @@ fun Route.changeLikeAndCommentStatus(){
             val response = commentsUseCase.deleteComment(commentId)
             call.respond(status = HttpStatusCode.OK , message = "Comment deleted")
         }catch (e : Exception){
+            println("Exception in deleting comment is ${e.message}")
             call.respond(status = HttpStatusCode.ExpectationFailed , message = "Something went wrong")
         }
     }

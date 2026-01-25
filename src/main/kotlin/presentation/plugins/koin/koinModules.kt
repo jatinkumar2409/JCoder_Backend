@@ -6,10 +6,12 @@ import com.example.data.impls.follow.followUserImpl
 import com.example.data.impls.getSearch.getSearchImpl
 import com.example.data.impls.homeFeed.buildFeedImpl
 import com.example.data.impls.likesAndComments.likesAnsCommentsImpl
+import com.example.data.impls.report.submitReportImpl
 import com.example.data.impls.save.savePostImpl
 import com.example.data.impls.updates.loadUpdatesImpl
 import com.example.data.impls.userDetails.userDetailsImpl
 import com.example.data.impls.userUploads.userUploadsImpl
+import com.example.data.utils.generic.mongoUtils
 import com.example.data.utils.generic.updatesUtils
 import com.example.data.utils.generic.userInfoService
 import com.example.data.utils.generic.webhookUtils
@@ -20,6 +22,7 @@ import com.example.domain.repositories.fcmToken.fcmTokenRepo
 import com.example.domain.repositories.follow.followUserRepo
 import com.example.domain.repositories.homeFeed.buildFeedPipeline
 import com.example.domain.repositories.likesAndComments.likesAndComments
+import com.example.domain.repositories.report.submitReport
 import com.example.domain.repositories.save.saveOrUnsavePost
 import com.example.domain.repositories.search.getSearch
 import com.example.domain.repositories.updates.isUpdatesUnread
@@ -30,11 +33,13 @@ import com.example.domain.usecases.feed.generateFeedUseCase
 import com.example.domain.usecases.follow.followUserUseCase
 import com.example.domain.usecases.likeAndComment.commentsUseCase
 import com.example.domain.usecases.likeAndComment.likePostUseCase
+import com.example.domain.usecases.report.submitReportUseCase
 import com.example.domain.usecases.save.loadSavedPosts
 import com.example.domain.usecases.save.savePostUseCase
 import com.example.domain.usecases.search.searchUseCase
 import com.example.domain.usecases.token.addTokenUseCase
 import com.example.domain.usecases.updates.loadUpdatesUseCase
+import com.example.domain.usecases.userDetails.deletePostUseCase
 import com.example.domain.usecases.userDetails.getUserPostsUseCase
 import com.example.domain.usecases.userDetails.getUserUseCase
 import com.example.domain.usecases.userDetails.updateImageUseCase
@@ -132,5 +137,17 @@ val genericModule = module {
     }
     single{
         updatesUtils(get())
+    }
+    single{
+        mongoUtils(get())
+    }
+    single{
+        deletePostUseCase(get() , get())
+    }
+    single<submitReport>{
+        submitReportImpl(get())
+    }
+    single{
+        submitReportUseCase(get())
     }
 }

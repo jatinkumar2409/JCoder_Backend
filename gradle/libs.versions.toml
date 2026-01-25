@@ -9,7 +9,6 @@ dotenv = "6.4.1"
 cloudinary="1.39.0"
 lettuce="6.3.2.RELEASE"
 [libraries]
-ktor-server-rate-limiting = { module = "io.github.flaxoos:ktor-server-rate-limiting", version = "2.2.1" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
@@ -31,6 +30,7 @@ ktor-client-core={module = "io.ktor:ktor-client-core" , version.ref = "ktor" }
 ktor-client-cio = {module = "io.ktor:ktor-client-cio" , version.ref="ktor"}
 ktor-client-content-negotiation= {module = "io.ktor:ktor-client-content-negotiation" , version.ref= "ktor"}
 cloudinary-sdk={module="com.cloudinary:cloudinary-http44" , version.ref="cloudinary"}
+ktor-rate-limiter ={module = "io.ktor:ktor-server-rate-limit" , version.ref="ktor"}
 lettuce-core = {module="io.lettuce:lettuce-core" , version.ref="lettuce"}
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

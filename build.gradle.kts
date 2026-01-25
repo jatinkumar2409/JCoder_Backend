@@ -20,7 +20,7 @@ tasks.named<ShadowJar>("shadowJar") {
     archiveClassifier.set("all")
 }
 dependencies {
-    implementation(libs.ktor.server.rate.limiting)
+
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.server.content.negotiation)
@@ -43,4 +43,5 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.cloudinary.sdk)
     implementation(libs.lettuce.core)
+    implementation(libs.ktor.rate.limiter)
 }

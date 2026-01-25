@@ -87,8 +87,8 @@ class likesAnsCommentsImpl(val db : MongoDatabase ,private val userInfo : userIn
 
     override suspend fun deleteComment(commentId: String): Boolean {
       try {
+          val postId   = comments.find(eq("commentId" , commentId)).first().postId
           val response = comments.deleteOne(eq("commentId" , commentId))
-          val postId   = comments.find(eq("coommentId" , commentId)).first().postId
           posts.updateOne(eq("postId" , postId) , inc("comments" , -1))
           return true
       }

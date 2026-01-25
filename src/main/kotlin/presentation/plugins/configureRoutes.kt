@@ -6,6 +6,7 @@ import com.example.presentation.routes.feed.generateFeed
 import com.example.presentation.routes.follow.followUser
 import com.example.presentation.routes.likeAndComments.changeLikeAndCommentStatus
 import com.example.presentation.routes.moderation.sightEngineWebhook
+import com.example.presentation.routes.report.reportRoute
 import com.example.presentation.routes.save.saveOrUnsavePost
 import com.example.presentation.routes.search.generateSearchResults
 import com.example.presentation.routes.singlePost.loadSinglePost
@@ -18,25 +19,32 @@ import com.example.presentation.routes.user.getUserPosts
 import com.example.presentation.routes.user.userDetails
 import com.example.presentation.routes.userUploads.getUserUploads
 import io.ktor.server.application.Application
+import io.ktor.server.plugins.ratelimit.RateLimitName
+import io.ktor.server.plugins.ratelimit.rateLimit
 import io.ktor.server.routing.routing
 
 fun Application.configureRoutes(){
     routing {
-        authRoute()
-        uploadPost()
-        sightEngineWebhook()
-        userDetails()
-        getUserPosts()
-        generateFeed()
-        changeLikeAndCommentStatus()
-        generateSearchResults()
-        saveOrUnsavePost()
-        getUserUploads()
-        saveFcmToken()
-        followUser()
-        loadSinglePost()
-        isUpdatesUnread()
-        loadUpdates()
-        test()
+        rateLimit(RateLimitName("auth")) {
+            authRoute()
+        }
+        rateLimit(RateLimitName("default")) {
+            uploadPost()
+            sightEngineWebhook()
+            userDetails()
+            getUserPosts()
+            generateFeed()
+            changeLikeAndCommentStatus()
+            generateSearchResults()
+            saveOrUnsavePost()
+            getUserUploads()
+            saveFcmToken()
+            followUser()
+            loadSinglePost()
+            isUpdatesUnread()
+            loadUpdates()
+            reportRoute()
+            test()
+        }
     }
 }
