@@ -12,6 +12,7 @@ import com.example.data.impls.updates.loadUpdatesImpl
 import com.example.data.impls.userDetails.userDetailsImpl
 import com.example.data.impls.userUploads.userUploadsImpl
 import com.example.data.utils.generic.mongoUtils
+import com.example.data.utils.generic.tokenUtils
 import com.example.data.utils.generic.updatesUtils
 import com.example.data.utils.generic.userInfoService
 import com.example.data.utils.generic.webhookUtils
@@ -112,7 +113,7 @@ val genericModule = module {
         fcmTokenImpl(get())
     }
     single<fcmServiceRepo>{
-        fcmServiceImpl(get())
+        fcmServiceImpl(get() , get())
     }
     single {
         addTokenUseCase(get())
@@ -149,5 +150,8 @@ val genericModule = module {
     }
     single{
         submitReportUseCase(get())
+    }
+    single{
+        tokenUtils(get())
     }
 }

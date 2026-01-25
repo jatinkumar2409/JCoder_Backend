@@ -1,6 +1,7 @@
 package com.example.data.impls.fcmToken
 
 import com.example.data.models.Update
+import com.example.data.utils.generic.tokenUtils
 import com.example.domain.repositories.fcmToken.fcmServiceRepo
 import com.example.domain.repositories.fcmToken.fcmTokenRepo
 import com.google.firebase.messaging.FirebaseMessaging
@@ -13,7 +14,7 @@ import java.time.Clock.system
 import java.util.UUID
 
 class fcmServiceImpl(
-    private val fcmToken: fcmTokenRepo
+    private val fcmToken: fcmTokenRepo , private val tokenUtilsVal: tokenUtils
 ) : fcmServiceRepo {
     override suspend fun sendCommentNotification(
         commentByName: String,
@@ -34,6 +35,7 @@ class fcmServiceImpl(
             .build()
         try {
             FirebaseMessaging.getInstance().send(message)
+            tokenUtilsVal.updateLastUsed(token)
             println("i am running with token $token")
         }catch (e : FirebaseMessagingException){
             if (e.messagingErrorCode == MessagingErrorCode.UNREGISTERED){
@@ -65,6 +67,7 @@ class fcmServiceImpl(
 
         try {
             FirebaseMessaging.getInstance().send(message)
+            tokenUtilsVal.updateLastUsed(token)
         }catch (e : FirebaseMessagingException){
          if (e.messagingErrorCode == MessagingErrorCode.UNREGISTERED){
              fcmToken.deleteTokens(token)
@@ -94,6 +97,7 @@ class fcmServiceImpl(
 
         try {
             FirebaseMessaging.getInstance().send(message)
+            tokenUtilsVal.updateLastUsed(token)
         }
         catch (e : FirebaseMessagingException){
             if (e.messagingErrorCode == MessagingErrorCode.UNREGISTERED){
@@ -124,6 +128,7 @@ class fcmServiceImpl(
 
          try {
              FirebaseMessaging.getInstance().send(message)
+             tokenUtilsVal.updateLastUsed(token)
          }catch (e : FirebaseMessagingException){
              if (e.messagingErrorCode == MessagingErrorCode.UNREGISTERED){
                  fcmToken.deleteTokens(token)
